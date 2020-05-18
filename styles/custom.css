@@ -1,0 +1,38 @@
+body {
+    background-color: #e4f9f5;
+    padding: 20px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+h1 {
+    text-align: center;
+    color: #323232;
+}
+
+h2 {
+    text-align: center;
+    color: #40514e;
+}
+
+.board {
+    text-align: center;
+    margin: 20px;
+}
+
+.note {
+    position: fixed;
+    margin-top:10px;
+    right: -100px;
+    width: 135px;
+    height: 135px;
+}
+
+#checkbox {
+    position: fixed;
+    width: 175px;
+    height: 150px;
+    border: 5px solid #0d7377;
+    background-color: #72a8aa;
+    border-radius: 10px;
+    color: transparent;
+}
