@@ -29,7 +29,7 @@ class Game {
         setInterval(()=> {
         this.notes.forEach((note) => {
           note.render();
-        })},30);
+        })},50);
     }
     collisionDetection($dom1, $dom2) {
         let sq1 = {
@@ -62,11 +62,12 @@ class Note {
     checking(){
         if (this.game.collisionDetection($checkbox, this.$note)){
             if (this.$note.classList.contains($checkbox.innerHTML)){
-                
+                let yeah = new Audio(`sounds/${$checkbox.innerHTML}.mp3`);
+                yeah.play();
                 this.game.score += 1;
                 document.querySelector("#scorepoints").innerHTML = this.game.score;
             } else {
-                console.log("Boohooohoo");
+                console.log("Booohooo");         
             }
         }
     }
@@ -107,19 +108,3 @@ class NotePressed {
     }
 }
 
-
-// function collisionDetection($dom1, $dom2) {
-//     let sq1 = {
-//         x: $dom1.offsetLeft,
-//         width: $dom1.offsetWidth,
-//     }
-//     let sq2 = {
-//         x: $dom2.offsetLeft,
-//         width: $dom2.offsetWidth,
-//     }
-//     if (sq2.x > sq1.x && sq2.x + sq2.width < sq1.x + sq1.width){
-//         return true;
-//     } else {
-//         return false;
-//     }
-// }
