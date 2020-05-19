@@ -22,8 +22,11 @@ h2 {
 }
 
 .board {
-    text-align: center;
-    margin: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
 }
 
 .note {
@@ -48,7 +51,7 @@ h2 {
     width: 175px;
     height: 175px;
     border: 5px solid #94fdff;
-    background-color: #53354a;
+    background-color: #53354a;git 
     border-radius: 10px;
     color: transparent;
 }
