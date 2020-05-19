@@ -21,6 +21,11 @@ h2 {
     text-shadow:  0px 0px 8px #802c6d, 0 0 4px #ffffff;
 }
 
+#start-button {
+    box-shadow: 0px 0px 10px #6a2d70;
+    border: 2px solid #727375;
+}
+
 .board {
     text-align: center;
     margin: 20px;
@@ -47,8 +52,9 @@ h2 {
     position: fixed;
     width: 175px;
     height: 175px;
-    border: 5px solid #94fdff;
-    background-color: #53354a;
+    border: 5px solid #b1d5eb;
+    background-color: #08101d;
+    box-shadow: 0px 0px 20px white inset;
     border-radius: 10px;
     color: transparent;
 }
