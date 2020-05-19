@@ -26,14 +26,22 @@ h2 {
     border: 2px solid #727375;
 }
 
+#start-button:hover {
+    box-shadow: 0px 0px 10px #6a2d70, 0px 0px 20px white inset;
+    background-color: #08101d;
+    color: white;
+}
+
 .board {
-    text-align: center;
-    margin: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+    width: 100%;
 }
 
 .note {
     position: fixed;
-    margin-top:10px;
     right: -100px;
     width: 135px;
     height: 135px;
@@ -42,7 +50,6 @@ h2 {
 
 .drum {
     position: fixed;
-    margin-left: 10px;
     top: -100px;
     width: 135px;
     height: 135px;

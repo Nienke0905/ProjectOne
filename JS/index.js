@@ -20,6 +20,8 @@ class Game {
     drumPressed = new DrumPressed(this);
     score = 0;
     start(){
+        let startAudio = new Audio(`sounds/yeah.mp3`);
+        startAudio.play();
         this.render();
     }
 
@@ -28,12 +30,10 @@ class Game {
             this.notePressed.render(event.key);
             this.drumPressed.render(event.key);
           }); 
-        setInterval(()=> {
+        let newPushes = setInterval(()=> {
             this.notes.push(new Note(this));
             this.drums.push(new Drum(this));
-            },1500);
-
-            
+            },1000);  
         setInterval(()=> {
         this.notes.forEach((note) => {
           note.render();
@@ -41,7 +41,14 @@ class Game {
         this.drums.forEach((drum)=> {
             drum.render();
         });
-        },50);
+        },30);
+        let stopInterval = setInterval(()=> {
+            clearInterval(newPushes);
+            this.stop();
+            },10000);
+        setInterval(()=> {
+            clearInterval(stopInterval);
+            },15000);
     }
     collisionDetection($dom1, $dom2) {
         let sq1 = {
@@ -61,6 +68,20 @@ class Game {
             return true;
         } else {
             return false;
+        }
+    }
+    stop(){
+        setTimeout(function(){
+            endscore();
+        }, 5000);
+        let endscore = () => {
+            let endSound = "";
+            if (this.score > 10){
+                endSound = new Audio (`sounds/winning.mp3`)
+            } else {
+                endSound = new Audio (`sounds/boo.mp3`)
+            }
+            endSound.play();
         }
     }
 }
