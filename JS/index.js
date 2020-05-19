@@ -1,7 +1,9 @@
 //jshint esversion:6
 
 let $board = document.querySelector(".board");
-let $checkbox = document.querySelector("#checkbox");
+let $checkboxGuitar = document.querySelector("#guitar");
+let $checkboxDrum = document.querySelector("#drum");
+
 
 window.onload = () => {
     let startButton = document.getElementById('start-button');
@@ -14,33 +16,48 @@ window.onload = () => {
 class Game {
     notes = [new Note(this)];
     notePressed = new NotePressed(this);
+    drums = [new Drum(this)];
+    drumPressed = new DrumPressed(this);
     score = 0;
     start(){
-
         this.render();
     }
+
     render(){
         document.addEventListener("keydown", event => {
             this.notePressed.render(event.key);
+            this.drumPressed.render(event.key);
           }); 
         setInterval(()=> {
             this.notes.push(new Note(this));
-            },1000);
+            this.drums.push(new Drum(this));
+            },1500);
+
+            
         setInterval(()=> {
         this.notes.forEach((note) => {
           note.render();
-        })},50);
+        });
+        this.drums.forEach((drum)=> {
+            drum.render();
+        });
+        },50);
     }
     collisionDetection($dom1, $dom2) {
         let sq1 = {
             x: $dom1.offsetLeft,
+            y: $dom1.offsetTop,
             width: $dom1.offsetWidth,
+            height: $dom1.offsetHeight,
         }
         let sq2 = {
             x: $dom2.offsetLeft,
+            y: $dom2.offsetTop,
             width: $dom2.offsetWidth,
+            height: $dom2.offsetHeight,
+
         }
-        if (sq2.x > sq1.x && sq2.x + sq2.width < sq1.x + sq1.width){
+        if ((sq2.x > sq1.x && sq2.x + sq2.width < sq1.x + sq1.width) && (sq2.y > sq1.y && sq2.y + sq2.height < sq1.y + sq1.height)) {
             return true;
         } else {
             return false;
@@ -60,19 +77,78 @@ class Note {
         $board.appendChild(this.$note);
     }
     checking(){
-        if (this.game.collisionDetection($checkbox, this.$note)){
-            if (this.$note.classList.contains($checkbox.innerHTML)){
-                let yeah = new Audio(`sounds/${$checkbox.innerHTML}.mp3`);
-                yeah.play();
-                this.game.score += 1;
-                document.querySelector("#scorepoints").innerHTML = this.game.score;
+        if (this.game.collisionDetection($checkboxGuitar, this.$note)){
+            if (this.$note.classList.contains($checkboxGuitar.innerHTML)){
+                return true;
             } else {
-                console.log("Booohooo");         
+                return false;        
             }
-        }
+        } 
     }
     render(){
         this.$note.style.left = `${this.$note.offsetLeft - 10}px`;
+    }
+}
+
+class Drum {
+    constructor(game){
+        this.game = game;
+        let drumArr = ["a","d"];
+        let randomDrum = drumArr[Math.floor(Math.random()*2)];
+        this.$drum = document.createElement("img");
+        this.$drum.src = "images/"+randomDrum+".png";
+        this.$drum.setAttribute("class","drum");
+        this.$drum.classList.add(randomDrum);
+        $board.appendChild(this.$drum);
+    }
+    checking(){
+        if (this.game.collisionDetection($checkboxDrum, this.$drum)){
+            if (this.$drum.classList.contains($checkboxDrum.innerHTML)){
+                return true;
+            } else {
+                return false;        
+            }
+        } 
+    }
+    render(){
+        this.$drum.style.top = `${this.$drum.offsetTop + 10}px`;
+    }
+}
+
+class DrumPressed {
+    constructor(game){
+        this.game = game;
+    }
+    render(key){
+        let drumPressed = "";
+        switch (key.toLowerCase()) {
+            case "d":
+                drumPressed = "d";
+                break;
+            case "a":
+                drumPressed = "a";
+                break;
+            default:
+                break;
+                
+        }
+
+        $checkboxDrum.innerHTML = drumPressed;
+        loop1:
+        for (let x=0; x<this.game.drums.length; x++){
+            let isInBox = this.game.drums[x].checking();
+            if (isInBox){
+                let drumAudio = new Audio(`sounds/${$checkboxDrum.innerHTML}.mp3`);
+                drumAudio.play();
+                this.game.score += 1;
+                document.querySelector("#scorepoints").innerHTML = this.game.score;
+                break loop1;
+            }
+        }
+        setTimeout(function(){
+            $checkboxDrum.innerHTML = "";
+        },100);
+
     }
 }
 
@@ -98,13 +174,25 @@ class NotePressed {
             default:
               break;
           }
-          $checkbox.innerHTML = notePressed;
-          this.game.notes.forEach((note) => {
-             note.checking();
-          });
+
+
+        $checkboxGuitar.innerHTML = notePressed;
+        // let audio = new Audio(`sounds/boo.mp3`);
+
+        loop1:
+        for (let x=0; x<this.game.notes.length; x++){
+            let isInBox = this.game.notes[x].checking();
+            if (isInBox){
+                let audio = new Audio(`sounds/${$checkboxGuitar.innerHTML}.mp3`);
+                audio.play();
+                this.game.score += 1;
+                document.querySelector("#scorepoints").innerHTML = this.game.score;
+                break loop1;
+            }
+        }
         setTimeout(function(){
-            $checkbox.innerHTML = "";
+            $checkboxGuitar.innerHTML = "";
         },100);
+        
     }
 }
-
