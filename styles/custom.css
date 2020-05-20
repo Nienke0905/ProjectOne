@@ -24,6 +24,7 @@ h2 {
 .start-button {
     box-shadow: 0px 0px 10px #6a2d70;
     border: 2px solid #727375;
+    width: 110px;
 }
 
 .start-button:hover {
@@ -36,8 +37,9 @@ h2 {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 50vh;
+    height: 55vh;
     width: 100%;
+    position: fixed;
 }
 
 .note {

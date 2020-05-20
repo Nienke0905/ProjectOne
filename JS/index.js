@@ -114,6 +114,12 @@ class Game {
             return false;
         }
     }
+
+    instrumentSound(keyPressed) {
+        let audio = new Audio(`sounds/${keyPressed}.mp3`);
+        audio.play();
+    }
+
     stop() {
         setTimeout(function () {
             endscore();
@@ -128,9 +134,14 @@ class Game {
                 document.getElementById("loser").style.display = "inline";
             }
             endSound.play();
-            $openTune.load();
+            // $openTune.load();
         }
+        setTimeout(function () {
+            location.reload();
+        }, 7000);
+    
     }
+
 }
 
 class Note {
@@ -195,17 +206,25 @@ class DrumPressed {
     render(key) {
         let drumPressed = key.toLowerCase();
 
+        let drumArr = ["a", "d"];
+        if (drumArr.includes(drumPressed)){
+            let rightOnePressed = false;
         loop1:
             for (let x = 0; x < this.game.drums.length; x++) {
                 let isInBox = this.game.drums[x].checking(drumPressed);
                 if (isInBox) {
-                    let drumAudio = new Audio(`sounds/${drumPressed}.mp3`);
-                    drumAudio.play();
                     this.game.score += 1;
                     document.querySelector("#scorepoints").innerHTML = this.game.score;
+                    rightOnePressed = true;
                     break loop1;
                 }
             }
+            if (rightOnePressed){
+                this.game.instrumentSound(drumPressed);
+            } else {
+                this.game.instrumentSound("mutedGuitar");
+            }
+        } 
     }
 }
 
@@ -233,16 +252,25 @@ class NotePressed {
                 break;
         }
 
-        loop1:
+        let notesArr = ["arrowUp", "arrowDown", "arrowLeft", "arrowRight"];
+        if (notesArr.includes(notePressed)){
+            let rightOnePressed = false;
+            loop1:
             for (let x = 0; x < this.game.notes.length; x++) {
                 let isInBox = this.game.notes[x].checking(notePressed);
                 if (isInBox) {
-                    let audio = new Audio(`sounds/${notePressed}.mp3`);
-                    audio.play();
                     this.game.score += 1;
                     document.querySelector("#scorepoints").innerHTML = this.game.score;
+                    rightOnePressed = true;
+                    this.game.instrumentSound(notePressed);
                     break loop1;
                 }
             }
+            if (rightOnePressed){
+                this.game.instrumentSound(notePressed);
+            } else {
+                this.game.instrumentSound("mutedGuitar");
+            } 
+        }
     }
 }
