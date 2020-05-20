@@ -4,6 +4,7 @@ body {
     /* font-family: 'Orbitron', sans-serif; */
     /* font-family: 'Balsamiq Sans', cursive; */
     font-family: 'Titillium Web', sans-serif;
+    margin: 20px;
 }
 
 h1 {
@@ -37,7 +38,7 @@ h2 {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 55vh;
+    height: 45vh;
     width: 100%;
     position: fixed;
 }

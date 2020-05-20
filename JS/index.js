@@ -29,11 +29,12 @@ window.onload = () => {
 class Game {
     constructor(difficulty) {
         this.difficulty = difficulty;
+        this.render = this.render.bind(this);
     }
 
-    minimumPoints = 10;
-    pushSpeed = 1500;
-    dropSpeed = 30;
+    minimumPoints = 7;
+    pushSpeed = 2000;
+    dropSpeed = 5;
     notes = [new Note(this)];
     notePressed = new NotePressed(this);
     drums = [new Drum(this)];
@@ -44,12 +45,13 @@ class Game {
 
     settings() {
         if (this.difficulty === "medium") {
-            this.minimumPoints = 20;
-            this.pushSpeed = 800;
+            this.minimumPoints = 12;
+            this.pushSpeed = 1500;
+            this.dropSpeed = 6;
         } else if (this.difficulty === "hard") {
-            this.minimumPoints = 18;
-            this.pushSpeed = 700;
-            this.dropSpeed = 25;
+            this.minimumPoints = 16;
+            this.pushSpeed = 1200;
+            this.dropSpeed = 8;
         }
         this.start();
     }
@@ -60,11 +62,7 @@ class Game {
         let startAudio = new Audio(`sounds/yeah.mp3`);
         $openTune.pause();
         startAudio.play();
-        this.render();
         this.intervalClearing();
-    }
-
-    render() {
         document.addEventListener("keydown", event => {
             this.notePressed.render(event.key);
             this.drumPressed.render(event.key);
@@ -75,16 +73,20 @@ class Game {
             this.drums.push(new Drum(this));
         }, this.pushSpeed);
 
-        setInterval(() => {
-            this.notes.forEach((note) => {
-                note.render();
-            });
+        this.render();
+    }
 
-            this.drums.forEach((drum) => {
-                drum.render();
-            });
+    render() {
 
-        }, this.dropSpeed);
+        this.notes.forEach((note) => {
+            note.render();
+        });
+
+        this.drums.forEach((drum) => {
+            drum.render();
+        });
+
+        requestAnimationFrame(this.render);
     }
 
     intervalClearing() {
@@ -100,14 +102,14 @@ class Game {
             y: $dom1.offsetTop,
             width: $dom1.offsetWidth,
             height: $dom1.offsetHeight,
-        }
+        };
         let sq2 = {
             x: $dom2.offsetLeft,
             y: $dom2.offsetTop,
             width: $dom2.offsetWidth,
             height: $dom2.offsetHeight,
 
-        }
+        };
         if ((sq2.x > sq1.x && sq2.x + sq2.width < sq1.x + sq1.width) && (sq2.y > sq1.y && sq2.y + sq2.height < sq1.y + sq1.height)) {
             return true;
         } else {
@@ -127,15 +129,15 @@ class Game {
         let endscore = () => {
             let endSound = "";
             if (this.score > this.minimumPoints) {
-                endSound = new Audio(`sounds/winning.mp3`)
+                endSound = new Audio(`sounds/winning.mp3`);
                 document.getElementById("winner").style.display = "inline";
             } else {
-                endSound = new Audio(`sounds/boo.mp3`)
+                endSound = new Audio(`sounds/boo.mp3`);
                 document.getElementById("loser").style.display = "inline";
             }
             endSound.play();
-            // $openTune.load();
-        }
+            $openTune.load();
+        };
         setTimeout(function () {
             location.reload();
         }, 7000);
@@ -156,6 +158,9 @@ class Note {
         $board.appendChild(this.$note);
     }
 
+    startTime = new Date();
+
+
     checking(notePressed) {
         if (this.game.collisionDetection($checkbox, this.$note)) {
             if (this.$note.classList.contains(notePressed)) {
@@ -167,7 +172,7 @@ class Note {
     }
 
     render() {
-        this.$note.style.left = `${this.$note.offsetLeft - 10}px`;
+        this.$note.style.left = (this.$note.offsetLeft - ((new Date() - this.startTime)/this.game.pushSpeed) * this.game.dropSpeed) + "px";
     }
 }
 
@@ -183,6 +188,8 @@ class Drum {
         $board.appendChild(this.$drum);
     }
 
+    startTime = new Date();
+
     checking(drumPressed) {
         if (this.game.collisionDetection($checkbox, this.$drum)) {
             if (this.$drum.classList.contains(drumPressed)) {
@@ -194,7 +201,7 @@ class Drum {
     }
 
     render() {
-        this.$drum.style.top = `${this.$drum.offsetTop + 10}px`;
+        this.$drum.style.top = (this.$drum.offsetTop + ((new Date() - this.startTime)/this.game.pushSpeed) * this.game.dropSpeed) +"px";
     }
 }
 
