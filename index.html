@@ -16,29 +16,33 @@
         <div class="row row justify-content-between text-center instructions p-2">
             <div class="col-4">
                 <div class="col">
-                    <p>Find out if you are a rockstar with rythm! Press the right arrow button at the right time and find out.</p>
+                    <p>Find out if you are a rockstar with rythm! Press the right arrow button or letter at the right time and find out.</p>
                 </div>
                 <div class="col">
-                    <button id="start-button" class="btn btn-outline-light btn-lg m-3">Start Rockstar Career</button>
+                    <button id="easy" class="btn btn-outline-light btn-lg m-3 start-button">Start Easy</button>
+                    <button id="medium" class="btn btn-outline-light btn-lg m-3 start-button">Start Wedding Artist</button>
+                    <button id="hard" class="btn btn-outline-light btn-lg m-3 start-button">Start Rockstar Career</button>
                 </div>
             </div>
             <div class="col-4">
                 <p>Score: <span id="scorepoints">0</span></p>
-                <!-- <img class="rounded mx-auto d-block" id="guitarImg" src="images/guitar.png" alt="guitar"> -->
             </div>
         </div>
     </div>
     <div class="board">
+        <div id="winner" class="result">
+            <h1>You're a superstar, that is what you are!</h1>
+        </div>
+        <div id="loser" class="result">
+            <h1>Maybe practice a bit more in your basement?</h1>
+        </div>
         <span class="checkbox" id="guitar"></span>
-        <span class="checkbox" id="drum"></span>
         </div>
     </div>
 
-
-    
-
-
-
+    <audio autoplay id="opening-tune">
+        <source src="./sounds/guitarRif.mp3" type="audio/mp3">
+      </audio> 
 
     <script src="JS/index.js"></script>
 </body>
