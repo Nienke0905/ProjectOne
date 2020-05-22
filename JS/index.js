@@ -117,6 +117,41 @@ class Game {
         }
     }
 
+
+    collisionDetectionLeft($dom1, $dom2) {
+        let sq1 = {
+            x: $dom1.offsetLeft,
+            width: $dom1.offsetWidth,
+        };
+        let sq2 = {
+            x: $dom2.offsetLeft,
+            width: $dom2.offsetWidth,
+
+        };
+        if (sq2.x > sq1.x && sq2.x < sq1.x + sq1.width) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    collisionDetectionRight($dom1, $dom2) {
+        let sq1 = {
+            x: $dom1.offsetLeft,
+            width: $dom1.offsetWidth,
+        };
+        let sq2 = {
+            x: $dom2.offsetLeft,
+            width: $dom2.offsetWidth,
+
+        };
+        if (sq2.x + sq2.width > sq1.x && sq2.x + sq2.width < sq1.x + sq1.width) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     instrumentSound(keyPressed) {
         let audio = new Audio(`sounds/${keyPressed}.mp3`);
         audio.play();
@@ -138,13 +173,16 @@ class Game {
             endSound.play();
             $openTune.load();
         };
-        setTimeout(function () {
-            location.reload();
-        }, 7000);
+        // setTimeout(function () {
+        //     location.reload();
+        // }, 7000);
     
     }
 
 }
+
+var lives = 3;
+var timePressed = 1;
 
 class Note {
     constructor(game) {
@@ -155,17 +193,24 @@ class Note {
         this.$note.src = "images/" + randomNote + ".png";
         this.$note.setAttribute("class", "note");
         this.$note.classList.add(randomNote);
-        // let longNote = Math.floor(Math.random()*2);
-        // if (longNote === 1){
-        //     this.$note.style.width = "250px";
-        // }
+        let longNote = Math.floor(Math.random()*2);
+        if (longNote === 1){
+            this.$note.style.width = "350px";
+        }
         $board.appendChild(this.$note);
     }
     startTime = new Date();
 
-
     checking(notePressed) {
-        if (this.game.collisionDetection($checkbox, this.$note) && (this.$note.classList.contains(notePressed))) {
+        if ((this.game.collisionDetectionLeft($checkbox, this.$note)) && ((this.$note.classList.contains(notePressed)))) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    checkingEnd(notePressed) {
+        if (this.game.collisionDetectionRight($checkbox, this.$note) && this.$note.classList.contains(notePressed)) {
             return true;
         } else {
             return false;
@@ -184,29 +229,36 @@ class NotePressed {
 
     render(key) {
         let notePressed = key;
-
         let notesArr = ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"];
         if (notesArr.includes(notePressed)){
-            let rightOnePressed = false;
-            loop1:
-            for (let x = 0; x < this.game.notes.length; x++) {
-                let isInBox = this.game.notes[x].checking(notePressed);
-                if (isInBox) {
-                    this.game.score += 1;
-                    document.querySelector("#scorepoints").innerHTML = this.game.score;
-                    rightOnePressed = true;
-                    this.game.instrumentSound(notePressed);
-                    break loop1;
+            if((Date.now() - timePressed )/1000 > 0.8){
+                timePressed = Date.now();
+                let pressedRight = false;
+                for (let x = 0; x < this.game.notes.length; x++) {
+                    pressedRight = this.game.notes[x].checking(notePressed);
+                    if (pressedRight) {
+                        let theNote = x;
+                        pressedRight = true;
+                        window.onkeyup = (e) => {
+                            if (this.game.notes[theNote].checkingEnd(e.key)) {
+                                this.game.instrumentSound(notePressed);
+                                this.game.score += 1;
+                                document.querySelector("#scorepoints").innerHTML = this.game.score;
+                            } 
+                        }
+                        break;
+                    }                    
+                }
+                if (!pressedRight){
+                    lives -= 1;
+                    document.querySelector("#lives").innerHTML = lives;
+                    this.game.instrumentSound("mutedGuitar");
                 }
             }
-            if (rightOnePressed){
-                this.game.instrumentSound(notePressed);
-            } else {
-                this.game.instrumentSound("mutedGuitar");
-            } 
         }
     }
 }
+
 
 class Drum {
     constructor(game) {
