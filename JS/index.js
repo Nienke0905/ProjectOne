@@ -32,9 +32,9 @@ class Game {
         this.render = this.render.bind(this);
     }
 
-    minimumPoints = 7;
-    pushSpeed = 2000;
-    dropSpeed = 5;
+    minimumPoints = 5;
+    pushSpeed = 2400;
+    distance = 2;
     notes = [new Note(this)];
     notePressed = new NotePressed(this);
     drums = [new Drum(this)];
@@ -45,13 +45,13 @@ class Game {
 
     settings() {
         if (this.difficulty === "medium") {
-            this.minimumPoints = 12;
-            this.pushSpeed = 1500;
-            this.dropSpeed = 6;
+            this.minimumPoints = 8;
+            this.pushSpeed = 2200;
+            this.distance = 3;
         } else if (this.difficulty === "hard") {
-            this.minimumPoints = 16;
-            this.pushSpeed = 1200;
-            this.dropSpeed = 8;
+            this.minimumPoints = 10;
+            this.pushSpeed = 2000;
+            this.distance = 4;
         }
         this.start();
     }
@@ -93,7 +93,7 @@ class Game {
         setTimeout(() => {
             clearInterval(this.newPushInterval);
             this.stop();
-        }, 10000);
+        }, 12000);
     }
 
     collisionDetection($dom1, $dom2) {
@@ -172,7 +172,7 @@ class Note {
     }
 
     render() {
-        this.$note.style.left = (this.$note.offsetLeft - ((new Date() - this.startTime)/this.game.pushSpeed) * this.game.dropSpeed) + "px";
+        this.$note.style.left = (this.$note.offsetLeft - ((new Date() - this.startTime)/1000) * this.game.distance) + "px";
     }
 }
 
@@ -201,7 +201,7 @@ class Drum {
     }
 
     render() {
-        this.$drum.style.top = (this.$drum.offsetTop + ((new Date() - this.startTime)/this.game.pushSpeed) * this.game.dropSpeed) +"px";
+        this.$drum.style.top = (this.$drum.offsetTop + ((new Date() - this.startTime)/1000) * this.game.distance) +"px";
     }
 }
 
