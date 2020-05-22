@@ -149,30 +149,62 @@ class Game {
 class Note {
     constructor(game) {
         this.game = game;
-        let notesArr = ["arrowUp", "arrowDown", "arrowLeft", "arrowRight"];
+        let notesArr = ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"];
         let randomNote = notesArr[Math.floor(Math.random() * 4)];
         this.$note = document.createElement("img");
         this.$note.src = "images/" + randomNote + ".png";
         this.$note.setAttribute("class", "note");
         this.$note.classList.add(randomNote);
+        // let longNote = Math.floor(Math.random()*2);
+        // if (longNote === 1){
+        //     this.$note.style.width = "250px";
+        // }
         $board.appendChild(this.$note);
     }
-
     startTime = new Date();
 
 
     checking(notePressed) {
-        if (this.game.collisionDetection($checkbox, this.$note)) {
-            if (this.$note.classList.contains(notePressed)) {
-                return true;
-            } else {
-                return false;
-            }
+        if (this.game.collisionDetection($checkbox, this.$note) && (this.$note.classList.contains(notePressed))) {
+            return true;
+        } else {
+            return false;
         }
     }
 
     render() {
         this.$note.style.left = (this.$note.offsetLeft - ((new Date() - this.startTime)/1000) * this.game.distance) + "px";
+    }
+}
+
+class NotePressed {
+    constructor(game) {
+        this.game = game;
+    }
+
+    render(key) {
+        let notePressed = key;
+
+        let notesArr = ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"];
+        if (notesArr.includes(notePressed)){
+            let rightOnePressed = false;
+            loop1:
+            for (let x = 0; x < this.game.notes.length; x++) {
+                let isInBox = this.game.notes[x].checking(notePressed);
+                if (isInBox) {
+                    this.game.score += 1;
+                    document.querySelector("#scorepoints").innerHTML = this.game.score;
+                    rightOnePressed = true;
+                    this.game.instrumentSound(notePressed);
+                    break loop1;
+                }
+            }
+            if (rightOnePressed){
+                this.game.instrumentSound(notePressed);
+            } else {
+                this.game.instrumentSound("mutedGuitar");
+            } 
+        }
     }
 }
 
@@ -235,49 +267,3 @@ class DrumPressed {
     }
 }
 
-class NotePressed {
-    constructor(game) {
-        this.game = game;
-    }
-
-    render(key) {
-        let notePressed = "";
-        switch (key) {
-            case "ArrowRight":
-                notePressed = "arrowRight";
-                break;
-            case "ArrowLeft":
-                notePressed = "arrowLeft";
-                break;
-            case "ArrowDown":
-                notePressed = "arrowDown";
-                break;
-            case "ArrowUp":
-                notePressed = "arrowUp";
-                break;
-            default:
-                break;
-        }
-
-        let notesArr = ["arrowUp", "arrowDown", "arrowLeft", "arrowRight"];
-        if (notesArr.includes(notePressed)){
-            let rightOnePressed = false;
-            loop1:
-            for (let x = 0; x < this.game.notes.length; x++) {
-                let isInBox = this.game.notes[x].checking(notePressed);
-                if (isInBox) {
-                    this.game.score += 1;
-                    document.querySelector("#scorepoints").innerHTML = this.game.score;
-                    rightOnePressed = true;
-                    this.game.instrumentSound(notePressed);
-                    break loop1;
-                }
-            }
-            if (rightOnePressed){
-                this.game.instrumentSound(notePressed);
-            } else {
-                this.game.instrumentSound("mutedGuitar");
-            } 
-        }
-    }
-}
