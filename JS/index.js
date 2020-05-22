@@ -32,26 +32,26 @@ class Game {
         this.render = this.render.bind(this);
     }
 
-    minimumPoints = 7;
-    pushSpeed = 2000;
-    dropSpeed = 5;
+    minimumPoints = 4;
+    distance = 2;
     notes = [new Note(this)];
     notePressed = new NotePressed(this);
-    drums = [new Drum(this)];
+    drums = [];
     drumPressed = new DrumPressed(this);
     score = 0;
     stopInterval = 0;
     newPushInterval = 0;
+    pushSpeed = 2200;
 
     settings() {
         if (this.difficulty === "medium") {
-            this.minimumPoints = 12;
-            this.pushSpeed = 1500;
-            this.dropSpeed = 6;
+            this.minimumPoints = 7;
+            this.distance = 5;
+            this.pushSpeed = 1800;
         } else if (this.difficulty === "hard") {
-            this.minimumPoints = 16;
-            this.pushSpeed = 1200;
-            this.dropSpeed = 8;
+            this.minimumPoints = 10;
+            this.distance = 7;
+            this.pushSpeed = 1500;
         }
         this.start();
     }
@@ -70,7 +70,9 @@ class Game {
     
         this.newPushInterval = setInterval(() => {
             this.notes.push(new Note(this));
-            this.drums.push(new Drum(this));
+            // if (this.score > 3){
+                this.drums.push(new Drum(this));
+            // }
         }, this.pushSpeed);
 
         this.render();
@@ -81,10 +83,11 @@ class Game {
         this.notes.forEach((note) => {
             note.render();
         });
-
-        this.drums.forEach((drum) => {
-            drum.render();
-        });
+        if (this.score > 3){
+            this.drums.forEach((drum) => {
+                drum.render();
+            });
+        }
 
         requestAnimationFrame(this.render);
     }
@@ -93,8 +96,9 @@ class Game {
         setTimeout(() => {
             clearInterval(this.newPushInterval);
             this.stop();
-        }, 10000);
+        }, 15000);
     }
+
 
     collisionDetection($dom1, $dom2) {
         let sq1 = {
@@ -146,6 +150,7 @@ class Game {
 
 }
 
+
 class Note {
     constructor(game) {
         this.game = game;
@@ -155,6 +160,12 @@ class Note {
         this.$note.src = "images/" + randomNote + ".png";
         this.$note.setAttribute("class", "note");
         this.$note.classList.add(randomNote);
+        // let noteLengthChance = Math.floor(Math.random()*2);
+        // let noteLength = 0.15;
+        // if (noteLengthChance = 1){
+        //     noteLength = 0.5;
+        //     this.$note.classList.add(randomLongNote);
+        // }
         $board.appendChild(this.$note);
     }
 
@@ -172,9 +183,29 @@ class Note {
     }
 
     render() {
-        this.$note.style.left = (this.$note.offsetLeft - ((new Date() - this.startTime)/this.game.pushSpeed) * this.game.dropSpeed) + "px";
+        this.$note.style.left = (this.$note.offsetLeft - ((new Date() - this.startTime)/1000) * this.game.distance) + "px";
+        if (this.$note.offsetLeft < $checkbox.offsetLeft){
+            this.$note.style.display = "none";
+        }
     }
 }
+
+// class NoteTimed extends Note {
+//     constructor(game){
+//         super(game);
+//         this.$note.style.borderColor = "red";
+//     }
+//     // override
+//     checking(keyPressed){
+//         if(keyupped && collideLeft?) {
+
+//         }
+//         else if (released && collideRight && hasCollidedLeft){
+//             // score ++ 
+//             /// sick effect
+//         }
+//     }
+// }
 
 class Drum {
     constructor(game) {
@@ -201,7 +232,10 @@ class Drum {
     }
 
     render() {
-        this.$drum.style.top = (this.$drum.offsetTop + ((new Date() - this.startTime)/this.game.pushSpeed) * this.game.dropSpeed) +"px";
+        this.$drum.style.top = (this.$drum.offsetTop + ((new Date() - this.startTime)/1000) * this.game.distance) + "px";
+        // if ((this.$drum.offsetTop + this.$drum.height) < ($checkbox.offsetTop + $checkbox.height)){
+        //     this.$drum.style.display = "none";
+        // }
     }
 }
 
@@ -281,3 +315,4 @@ class NotePressed {
         }
     }
 }
+
