@@ -32,26 +32,28 @@ class Game {
         this.render = this.render.bind(this);
     }
 
-    minimumPoints = 5;
+    minimumPoints = 4;
     pushSpeed = 2400;
-    distance = 2;
+    distance = 3;
     notes = [new Note(this)];
     notePressed = new NotePressed(this);
-    drums = [new Drum(this)];
+    drums = [];
     drumPressed = new DrumPressed(this);
     score = 0;
     stopInterval = 0;
     newPushInterval = 0;
+    timePressedArrow = 1;
+    timePressedDrum = 1;
 
     settings() {
         if (this.difficulty === "medium") {
-            this.minimumPoints = 8;
-            this.pushSpeed = 2200;
-            this.distance = 3;
+            this.minimumPoints = 9;
+            this.pushSpeed = 1800;
+            this.distance = 6;
         } else if (this.difficulty === "hard") {
             this.minimumPoints = 10;
-            this.pushSpeed = 2000;
-            this.distance = 4;
+            this.pushSpeed = 1500;
+            this.distance = 10;
         }
         this.start();
     }
@@ -70,7 +72,9 @@ class Game {
     
         this.newPushInterval = setInterval(() => {
             this.notes.push(new Note(this));
-            this.drums.push(new Drum(this));
+            if (this.score > 1){
+                this.drums.push(new Drum(this));
+            }
         }, this.pushSpeed);
 
         this.render();
@@ -173,16 +177,13 @@ class Game {
             endSound.play();
             $openTune.load();
         };
-        // setTimeout(function () {
-        //     location.reload();
-        // }, 7000);
-    
+        setTimeout(function () {
+            location.reload();
+        }, 8000);
     }
 
 }
 
-var lives = 3;
-var timePressed = 1;
 
 class Note {
     constructor(game) {
@@ -230,30 +231,31 @@ class NotePressed {
     render(key) {
         let notePressed = key;
         let notesArr = ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"];
-        if (notesArr.includes(notePressed)){
-            if((Date.now() - timePressed )/1000 > 0.8){
-                timePressed = Date.now();
-                let pressedRight = false;
-                for (let x = 0; x < this.game.notes.length; x++) {
-                    pressedRight = this.game.notes[x].checking(notePressed);
-                    if (pressedRight) {
-                        let theNote = x;
-                        pressedRight = true;
-                        window.onkeyup = (e) => {
-                            if (this.game.notes[theNote].checkingEnd(e.key)) {
-                                this.game.instrumentSound(notePressed);
-                                this.game.score += 1;
-                                document.querySelector("#scorepoints").innerHTML = this.game.score;
-                            } 
+
+        if (notesArr.includes(notePressed) && ((Date.now() - this.game.timePressedArrow )/1000 > 0.8)){
+            this.game.timePressedArrow = Date.now();
+            let keyDownCorrect = false;
+            for (let x = 0; x < this.game.notes.length; x++) {
+                keyDownCorrect = this.game.notes[x].checking(notePressed);
+                if (keyDownCorrect) {
+                    let theNote = x;
+                    keyDownCorrect = true;
+                    window.onkeyup = (e) => {
+                        if (this.game.notes[theNote].checkingEnd(e.key)) {
+                            this.game.instrumentSound(notePressed);
+                            this.game.score += 1;
+                            document.querySelector("#scorepoints").innerHTML = this.game.score;
+                        // } else {
+                        //     this.game.score -= 1;
                         }
-                        break;
-                    }                    
-                }
-                if (!pressedRight){
-                    lives -= 1;
-                    document.querySelector("#lives").innerHTML = lives;
-                    this.game.instrumentSound("mutedGuitar");
-                }
+                    }
+                    break;
+                }                    
+            }
+            if (!keyDownCorrect){
+                this.game.score -= 1;
+                document.querySelector("#scorepoints").innerHTML = this.game.score;
+                this.game.instrumentSound("mutedGuitar");
             }
         }
     }
@@ -296,26 +298,28 @@ class DrumPressed {
 
     render(key) {
         let drumPressed = key.toLowerCase();
-
         let drumArr = ["a", "d"];
-        if (drumArr.includes(drumPressed)){
-            let rightOnePressed = false;
-        loop1:
+        let rightOnePressed = false;
+
+        if (drumArr.includes(drumPressed) && ((Date.now() - this.game.timePressedDrum )/1000 > 0.8)){
+            this.game.timePressedDrum = Date.now();
             for (let x = 0; x < this.game.drums.length; x++) {
-                let isInBox = this.game.drums[x].checking(drumPressed);
-                if (isInBox) {
+                rightOnePressed = this.game.drums[x].checking(drumPressed);
+                if (rightOnePressed) {
                     this.game.score += 1;
                     document.querySelector("#scorepoints").innerHTML = this.game.score;
-                    rightOnePressed = true;
-                    break loop1;
+                    this.game.instrumentSound(drumPressed);
+                    break;
                 }
             }
-            if (rightOnePressed){
-                this.game.instrumentSound(drumPressed);
-            } else {
+            if (!rightOnePressed){
                 this.game.instrumentSound("mutedGuitar");
-            }
-        } 
+                this.game.score -= 1;
+                document.querySelector("#scorepoints").innerHTML = this.game.score;
+            }  
+
+        }
+
     }
 }
 

@@ -13,19 +13,19 @@
     <h2>this is just a tribute</h2>
     <div class="container-fluid m-3 p-3">
         <div class="row row justify-content-between text-center instructions p-2">
-            <div class="col-4 mt-3">
+            <div class="col-4 mt-2">
                 <div class="col">
-                    <p>Find out if you are a rockstar with rythm! Press the right arrow button or letter at the right time and find out.</p>
+                    <p>Find out if you are a rockstar with rythm! Press the right button at the right time. Keep it pushed a little longer for those long notes. And don't forget, for every right note you get a point, for every wrong note you get a point deducted.</p>
                 </div>
                 <div class="col mt-2">
-                    <button id="easy" class="btn btn-outline-light btn-lg m-1 start-button">Easy</button>
-                    <button id="medium" class="btn btn-outline-light btn-lg m-1 start-button">Medium</button>
-                    <button id="hard" class="btn btn-outline-light btn-lg m-1 start-button">Rockstar</button>
+                    <button id="easy" class="btn btn-outline-light m-1 start-button">Easy</button>
+                    <button id="medium" class="btn btn-outline-light m-1 start-button">Medium</button>
+                    <button id="hard" class="btn btn-outline-light m-1 start-button">Rockstar</button>
                 </div>
             </div>
             <div class="col-4">
-                <p>Score: <span id="scorepoints">0</span></p>
-                <p>Lives: <span id="lives">3</span></p>
+                <p class="score">Score: <span id="scorepoints">0</span></p>
+                <!-- <img id="guitar" src="./images/guitar.png" alt=""> -->
             </div>
         </div>
     </div>
@@ -36,7 +36,7 @@
         <div id="loser" class="result">
             <h1>Maybe practice a bit more in your basement?</h1>
         </div>
-        <span class="checkbox" id="guitar"></span>
+        <span class="checkbox"></span>
         </div>
     </div>
 
