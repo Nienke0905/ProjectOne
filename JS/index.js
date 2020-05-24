@@ -47,7 +47,7 @@ class Game {
 
     settings() {
         if (this.difficulty === "medium") {
-            this.minimumPoints = 9;
+            this.minimumPoints = 8;
             this.pushSpeed = 1800;
             this.distance = 6;
         } else if (this.difficulty === "hard") {
