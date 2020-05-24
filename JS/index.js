@@ -196,6 +196,7 @@ class Note {
         this.$note.classList.add(randomNote);
         let longNote = Math.floor(Math.random()*2);
         if (longNote === 1){
+            this.$note.src = "images/long" + randomNote + ".png";
             this.$note.style.width = "350px";
         }
         $board.appendChild(this.$note);
