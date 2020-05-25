@@ -60,8 +60,7 @@ class NotePressed {
                             this.game.instrumentSound(notePressed);
                             this.game.score += 1;
                             document.querySelector("#scorepoints").innerHTML = this.game.score;
-                        // } else {
-                        //     this.game.score -= 1;
+                            
                         }
                     }
                     break;
