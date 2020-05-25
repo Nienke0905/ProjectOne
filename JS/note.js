@@ -1,3 +1,4 @@
+//jshint esversion:6
 
 class Note {
     constructor(game) {
@@ -69,7 +70,7 @@ class NotePressed {
                             document.querySelector("#scorepoints").innerHTML = this.game.score;
                             this.game.notes[theNote].animation();
                         }
-                    }
+                    };
                     break;
                 }                    
             }

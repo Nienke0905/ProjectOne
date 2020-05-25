@@ -73,9 +73,7 @@ class Game {
         this.newPushInterval = setInterval(() => {
             this.notes.push(new Note(this));
             if (this.score > 1){
-                this.drums.push(new Drum(this));
-            // } else if (this.score > 3){
-                
+                this.drums.push(new Drum(this));  
             }
         }, this.pushSpeed);
 
@@ -102,21 +100,17 @@ class Game {
         }, 12000);
     }
 
-    collisionDetection($dom1, $dom2) {
+    collisionDetection($checkbox, $drum) {
         let sq1 = {
-            x: $dom1.offsetLeft,
-            y: $dom1.offsetTop,
-            width: $dom1.offsetWidth,
-            height: $dom1.offsetHeight,
+            y: $checkbox.offsetTop,
+            height: $checkbox.offsetHeight,
         };
         let sq2 = {
-            x: $dom2.offsetLeft,
-            y: $dom2.offsetTop,
-            width: $dom2.offsetWidth,
-            height: $dom2.offsetHeight,
+            y: $drum.offsetTop,
+            height: $drum.offsetHeight,
 
         };
-        if ((sq2.x > sq1.x && sq2.x + sq2.width < sq1.x + sq1.width) && (sq2.y > sq1.y && sq2.y + sq2.height < sq1.y + sq1.height)) {
+        if (sq2.y > sq1.y && sq2.y + sq2.height < sq1.y + sq1.height) {
             return true;
         } else {
             return false;
@@ -124,14 +118,14 @@ class Game {
     }
 
 
-    collisionDetectionLeft($dom1, $dom2) {
+    collisionDetectionLeft($checkbox, $note) {
         let sq1 = {
-            x: $dom1.offsetLeft,
-            width: $dom1.offsetWidth,
+            x: $checkbox.offsetLeft,
+            width: $checkbox.offsetWidth,
         };
         let sq2 = {
-            x: $dom2.offsetLeft,
-            width: $dom2.offsetWidth,
+            x: $note.offsetLeft,
+            width: $note.offsetWidth,
 
         };
         if (sq2.x > sq1.x && sq2.x < sq1.x + sq1.width) {
@@ -141,14 +135,14 @@ class Game {
         }
     }
 
-    collisionDetectionRight($dom1, $dom2) {
+    collisionDetectionRight($checkbox, $note) {
         let sq1 = {
-            x: $dom1.offsetLeft,
-            width: $dom1.offsetWidth,
+            x: $checkbox.offsetLeft,
+            width: $checkbox.offsetWidth,
         };
         let sq2 = {
-            x: $dom2.offsetLeft,
-            width: $dom2.offsetWidth,
+            x: $note.offsetLeft,
+            width: $note.offsetWidth,
 
         };
         if (sq2.x + sq2.width > sq1.x && sq2.x + sq2.width < sq1.x + sq1.width) {

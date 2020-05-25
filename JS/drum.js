@@ -1,3 +1,5 @@
+//jshint esversion:6
+
 class Drum {
     constructor(game) {
         this.game = game;
@@ -26,8 +28,6 @@ class Drum {
         this.$drum.style.top = (this.$drum.offsetTop + ((new Date() - this.startTime)/1000) * this.game.distance) +"px";
     }
 }
-
-
 
 class DrumPressed {
     constructor(game) {
