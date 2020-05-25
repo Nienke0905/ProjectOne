@@ -39,10 +39,7 @@ class Note {
     }
 
     animation(){
-        if (this.$note.style.width === "350px"){
-            this.$note.classList.add("rotate-center");
-
-        }
+        this.$note.classList.add("rotate-center");
     }
 }
 

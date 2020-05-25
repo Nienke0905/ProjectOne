@@ -27,6 +27,10 @@ class Drum {
     render() {
         this.$drum.style.top = (this.$drum.offsetTop + ((new Date() - this.startTime)/1000) * this.game.distance) +"px";
     }
+
+    animation(){
+        this.$drum.classList.add("rotate-center");
+    }
 }
 
 class DrumPressed {
@@ -47,6 +51,7 @@ class DrumPressed {
                     this.game.score += 1;
                     document.querySelector("#scorepoints").innerHTML = this.game.score;
                     this.game.instrumentSounds.playSound(drumPressed);
+                    this.game.drums[x].animation();
                     break;
                 }
             }

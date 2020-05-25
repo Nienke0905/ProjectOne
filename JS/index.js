@@ -32,7 +32,7 @@ class Game {
         this.render = this.render.bind(this);
     }
     instrumentSounds = new Sounds(this);
-    minimumPoints = 4;
+    minimumPoints = 10;
     pushSpeed = 2400;
     distance = 3;
     notes = [new Note(this)];
@@ -47,11 +47,11 @@ class Game {
 
     settings() {
         if (this.difficulty === "medium") {
-            this.minimumPoints = 8;
+            this.minimumPoints = 14;
             this.pushSpeed = 1800;
             this.distance = 6;
         } else if (this.difficulty === "hard") {
-            this.minimumPoints = 10;
+            this.minimumPoints = 16;
             this.pushSpeed = 1500;
             this.distance = 10;
         }
@@ -97,7 +97,7 @@ class Game {
         setTimeout(() => {
             clearInterval(this.newPushInterval);
             this.stop();
-        }, 12000);
+        }, 20000);
     }
 
     collisionDetection($checkbox, $drum) {
