@@ -94,8 +94,7 @@ p {
 }
 
 .rotate-scale-up {
-    background-color: darkred;
-	/* animation: rotate-scale-up 1s linear; */
+	animation: rotate-scale-up 1s linear;
 }
 
 /* ----------------------------------------------

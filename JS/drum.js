@@ -46,12 +46,12 @@ class DrumPressed {
                 if (rightOnePressed) {
                     this.game.score += 1;
                     document.querySelector("#scorepoints").innerHTML = this.game.score;
-                    this.game.instrumentSound(drumPressed);
+                    this.game.instrumentSounds.playSound(drumPressed);
                     break;
                 }
             }
             if (!rightOnePressed){
-                this.game.instrumentSound("mutedGuitar");
+                this.game.instrumentSounds.playSound("mutedGuitar");
                 this.game.score -= 1;
                 document.querySelector("#scorepoints").innerHTML = this.game.score;
             }  

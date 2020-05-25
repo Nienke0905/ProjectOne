@@ -26,54 +26,55 @@ window.onload = () => {
 
 };
 
-// class Sounds {
-//     constructor(game) {
-//         this.game = game;
-//         this.ArrowDown = new Audio("sounds/ArrowDown.mp3");
-//         this.ArrowUp = new Audio("sounds/ArrowUp.mp3");
-//         this.ArrowLeft = new Audio("sounds/ArrowLeft.mp3");
-//         this.ArrowRight = new Audio("sounds/ArrowRight.mp3");
-//         this.a = new Audio("sounds/a.mp3");
-//         this.d = new Audio("sounds/d.mp3");
-//         this.mutedGuitar = new Audio("sounds/mutedGuitar.mp3");
-//     }
+class Sounds {
+    constructor(game) {
+        this.game = game;
+        this.ArrowDown = new Audio("sounds/ArrowDown.mp3");
+        this.ArrowUp = new Audio("sounds/ArrowUp.mp3");
+        this.ArrowLeft = new Audio("sounds/ArrowLeft.mp3");
+        this.ArrowRight = new Audio("sounds/ArrowRight.mp3");
+        this.a = new Audio("sounds/a.mp3");
+        this.d = new Audio("sounds/d.mp3");
+        this.mutedGuitar = new Audio("sounds/mutedGuitar.mp3");
+    }
 
 
-//     playSound(key) {
-//         let instrument = "";
-//         switch(key){
-//             case "ArrowDown":
-//                 instrument = this.ArrowDown;
-//                 break;
-//             case "ArrowUp":
-//                 instrument = this.ArrowUp;
-//                 break;
-//             case "ArrowLeft":
-//                 instrument = this.ArrowLeft;
-//                 break;
-//             case "ArrowRight":
-//                 instrument = this.ArrowRight;
-//                 break;
-//             case "a":
-//                 instrument = this.a;
-//                 break;
-//             case "d":
-//                 instrument = this.d;
-//                 break;
-//             case "mutedGuitar":
-//                 instrument = this.mutedGuitar;
-//                 break;
-//         }
-//         instrument.play();
-//     }
-// }
+    playSound(key) {
+        console.log("Playing", key)
+        let instrument = "";
+        switch(key){
+            case "ArrowDown":
+                instrument = this.ArrowDown;
+                break;
+            case "ArrowUp":
+                instrument = this.ArrowUp;
+                break;
+            case "ArrowLeft":
+                instrument = this.ArrowLeft;
+                break;
+            case "ArrowRight":
+                instrument = this.ArrowRight;
+                break;
+            case "a":
+                instrument = this.a;
+                break;
+            case "d":
+                instrument = this.d;
+                break;
+            case "mutedGuitar":
+                instrument = this.mutedGuitar;
+                break;
+        }
+        instrument.play();
+    }
+}
 
 class Game {
     constructor(difficulty) {
         this.difficulty = difficulty;
         this.render = this.render.bind(this);
     }
-    // instrumentSounds = new Sounds(this);
+    instrumentSounds = new Sounds(this);
     minimumPoints = 4;
     pushSpeed = 2400;
     distance = 3;
@@ -199,6 +200,13 @@ class Game {
     }
 
     instrumentSound(keyPressed) {
+        this.instrumentSounds.playSound(keyPressed);
+        // // document.getElementById(keyPressed).play();
+        // let audio = new Audio(`sounds/${keyPressed}.mp3`);
+        // audio.play();
+    }
+
+    drumSound(keyPressed) {
         // this.instrumentSounds.playSound(keyPressed);
         // document.getElementById(keyPressed).play();
         let audio = new Audio(`sounds/${keyPressed}.mp3`);

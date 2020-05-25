@@ -36,6 +36,10 @@ class Note {
     render() {
         this.$note.style.left = (this.$note.offsetLeft - ((new Date() - this.startTime)/1000) * this.game.distance) + "px";
     }
+
+    // animation() {
+    //     this.$note.classList.add(rotate-scale-up);
+    // }
 }
 
 class NotePressed {
@@ -57,10 +61,10 @@ class NotePressed {
                     keyDownCorrect = true;
                     window.onkeyup = (e) => {
                         if (this.game.notes[theNote].checkingEnd(e.key)) {
-                            this.game.instrumentSound(notePressed);
+                            this.game.instrumentSounds.playSound(notePressed);
                             this.game.score += 1;
                             document.querySelector("#scorepoints").innerHTML = this.game.score;
-                            
+                            // this.game.notes[theNote].animation();
                         }
                     }
                     break;
@@ -69,7 +73,7 @@ class NotePressed {
             if (!keyDownCorrect){
                 this.game.score -= 1;
                 document.querySelector("#scorepoints").innerHTML = this.game.score;
-                this.game.instrumentSound("mutedGuitar");
+                this.game.instrumentSounds.playSound("mutedGuitar");
             }
         }
     }
