@@ -1,46 +1,61 @@
 class Sounds {
     constructor(game) {
         this.game = game;
-        this.ArrowDown =`sounds/ArrowDown.mp3`;
-        this.ArrowUp =`sounds/ArrowUp.mp3`;
-        this.ArrowLeft =`sounds/ArrowLeft.mp3`;
-        this.ArrowRight =`sounds/ArrowRight.mp3`;
-        this.a =`sounds/a.mp3`;
-        this.d =`sounds/d.mp3`;
-        this.mutedGuitar =`sounds/mutedGuitar.mp3`;
     }
-
-
     playSound(key) {
         var instrument  = new Audio();
         var src1  = document.createElement("source");
         src1.type = "audio/mpeg";
-        src1.src = "";
-        switch(key){
-            case "ArrowDown":
-                src1.src = this.ArrowDown;
-                break;
-            case "ArrowUp":
-                src1.src = this.ArrowUp;
-                break;
-            case "ArrowLeft":
-                src1.src = this.ArrowLeft;
-                break;
-            case "ArrowRight":
-                src1.src = this.ArrowRight;
-                break;
-            case "a":
-                src1.src = this.a;
-                break;
-            case "d":
-                src1.src = this.d;
-                break;
-            case "mutedGuitar":
-                src1.src = this.mutedGuitar;
-                break;
-        }
-
+        src1.src  = `sounds/${key}.mp3`;
         instrument.appendChild(src1);
         instrument.play();
     }
 }
+
+
+
+
+// class Sounds {
+//     constructor(game) {
+//         this.game = game;
+//         this.ArrowDown = new Audio (`sounds/ArrowDown.mp3`);
+//         this.ArrowUp = new Audio(`sounds/ArrowUp.mp3`);
+//         this.ArrowLeft = new Audio(`sounds/ArrowLeft.mp3`);
+//         this.ArrowRight = new Audio(`sounds/ArrowRight.mp3`);
+//         this.a = new Audio(`sounds/a.mp3`);
+//         this.d = new Audio(`sounds/d.mp3`);
+//         this.mutedGuitar = new Audio(`sounds/mutedGuitar.mp3`);
+//     }
+
+
+//     playSound(key) {
+//         var instrument  = "";
+//         switch(key){
+//             case "ArrowDown":
+//                 instrument = this.ArrowDown;
+//                 break;
+//             case "ArrowUp":
+//                 instrument = this.ArrowUp;
+//                 break;
+//             case "ArrowLeft":
+//                 instrument = this.ArrowLeft;
+//                 break;
+//             case "ArrowRight":
+//                 instrument = this.ArrowRight;
+//                 break;
+//             case "a":
+//                 instrument = this.a;
+//                 break;
+//             case "d":
+//                 instrument = this.d;
+//                 break;
+//             case "mutedGuitar":
+//                 instrument = this.mutedGuitar;
+//                 break;
+//         }
+//         var src1  = document.createElement("source");
+//         src1.type = "audio/mpeg";
+//         instrument.appendChild(src1);
+//         instrument.play();
+//     }
+// }
