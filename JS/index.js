@@ -206,13 +206,6 @@ class Game {
         // audio.play();
     }
 
-    drumSound(keyPressed) {
-        // this.instrumentSounds.playSound(keyPressed);
-        // document.getElementById(keyPressed).play();
-        let audio = new Audio(`sounds/${keyPressed}.mp3`);
-        audio.play();
-    }
-
     stop() {
         setTimeout(function () {
             endscore();
