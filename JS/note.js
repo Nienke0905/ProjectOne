@@ -37,9 +37,12 @@ class Note {
         this.$note.style.left = (this.$note.offsetLeft - ((new Date() - this.startTime)/1000) * this.game.distance) + "px";
     }
 
-    // animation() {
-    //     this.$note.classList.add(rotate-scale-up);
-    // }
+    animation(){
+        if (this.$note.style.width === "350px"){
+            this.$note.classList.add("rotate-center");
+
+        }
+    }
 }
 
 class NotePressed {
@@ -64,7 +67,7 @@ class NotePressed {
                             this.game.instrumentSounds.playSound(notePressed);
                             this.game.score += 1;
                             document.querySelector("#scorepoints").innerHTML = this.game.score;
-                            // this.game.notes[theNote].animation();
+                            this.game.notes[theNote].animation();
                         }
                     }
                     break;

@@ -26,49 +26,6 @@ window.onload = () => {
 
 };
 
-class Sounds {
-    constructor(game) {
-        this.game = game;
-        this.ArrowDown = new Audio("sounds/ArrowDown.mp3");
-        this.ArrowUp = new Audio("sounds/ArrowUp.mp3");
-        this.ArrowLeft = new Audio("sounds/ArrowLeft.mp3");
-        this.ArrowRight = new Audio("sounds/ArrowRight.mp3");
-        this.a = new Audio("sounds/a.mp3");
-        this.d = new Audio("sounds/d.mp3");
-        this.mutedGuitar = new Audio("sounds/mutedGuitar.mp3");
-    }
-
-
-    playSound(key) {
-        console.log("Playing", key)
-        let instrument = "";
-        switch(key){
-            case "ArrowDown":
-                instrument = this.ArrowDown;
-                break;
-            case "ArrowUp":
-                instrument = this.ArrowUp;
-                break;
-            case "ArrowLeft":
-                instrument = this.ArrowLeft;
-                break;
-            case "ArrowRight":
-                instrument = this.ArrowRight;
-                break;
-            case "a":
-                instrument = this.a;
-                break;
-            case "d":
-                instrument = this.d;
-                break;
-            case "mutedGuitar":
-                instrument = this.mutedGuitar;
-                break;
-        }
-        instrument.play();
-    }
-}
-
 class Game {
     constructor(difficulty) {
         this.difficulty = difficulty;
@@ -117,6 +74,8 @@ class Game {
             this.notes.push(new Note(this));
             if (this.score > 1){
                 this.drums.push(new Drum(this));
+            // } else if (this.score > 3){
+                
             }
         }, this.pushSpeed);
 
@@ -197,13 +156,6 @@ class Game {
         } else {
             return false;
         }
-    }
-
-    instrumentSound(keyPressed) {
-        this.instrumentSounds.playSound(keyPressed);
-        // // document.getElementById(keyPressed).play();
-        // let audio = new Audio(`sounds/${keyPressed}.mp3`);
-        // audio.play();
     }
 
     stop() {
